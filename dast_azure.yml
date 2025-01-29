@@ -17,7 +17,7 @@ jobs:
             -v "$(Build.SourcesDirectory)\DAST-AZURE:/dast_home" ^
             checkmarx/dast:latest web ^
             --environment-id="573ceb9a-f003-40ba-88f9-d61fea148a4e" ^
-            --config="C:\Users\DhruvP\Downloads\altoro_mutual_config.yaml" ^
+            --config="altoro_mutual_config.yaml" ^
             --base-url=https://ind.ast.checkmarx.net/ ^
             --output=/dast_home/test_output ^
             --timeout=10000 ^
