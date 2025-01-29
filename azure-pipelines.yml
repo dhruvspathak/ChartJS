@@ -14,7 +14,7 @@ jobs:
           docker pull checkmarx/dast:latest
           docker run ^
             -e CX_APIKEY=$(CX_APIKEY) ^
-            -v "/home/vsts/work/4/s:/dast_home" ^
+            -v "$(Build.SourcesDirectory)/DAST-AZURE:/dast_home" ^
             checkmarx/dast:latest web ^
             --environment-id="573ceb9a-f003-40ba-88f9-d61fea148a4e" ^
             --config="/dast_home/DAST-AZURE/dast-config/altoro_mutual_config.yaml" ^
