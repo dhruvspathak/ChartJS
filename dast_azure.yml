@@ -11,25 +11,23 @@ jobs:
     displayName: 'Initiate DAST scan'
     steps:
       - script: |
-          sudo chmod a+rw -R ./
           docker pull checkmarx/dast:latest
-          docker run \
-            -e CX_APIKEY=$(CX_APIKEY) \
-            -v "$(Build.SourcesDirectory)/DAST-AZURE:/dast_home" \
-            checkmarx/dast:latest web \
-            --environment-id="573ceb9a-f003-40ba-88f9-d61fea148a4e" \
-            --config="/dast_home/dast-config/zap_config.yaml" \
-            --base-url=https:/ind.ast.checkmarx.net/ \
-            --output=/dast_home/test_output \
-            --timeout=10000 \
-            --update-interval=10 \
-            --jvm-properties=-Xmx3G \
-            --log-level=info \
-            --verbose \
-            --retry=3 \
+          docker run ^
+            -e CX_APIKEY=$(CX_APIKEY) ^
+            -v "$(Build.SourcesDirectory)\DAST-AZURE:/dast_home" ^
+            checkmarx/dast:latest web ^
+            --environment-id="573ceb9a-f003-40ba-88f9-d61fea148a4e" ^
+            --config="/dast_home/dast-config/zap_config.yaml" ^
+            --base-url=https://ind.ast.checkmarx.net/ ^
+            --output=/dast_home/test_output ^
+            --timeout=10000 ^
+            --update-interval=10 ^
+            --jvm-properties=-Xmx3G ^
+            --log-level=info ^
+            --verbose ^
+            --retry=3 ^
             --retry-delay=20
-          sudo chown -R $(whoami) $(Build.SourcesDirectory)/DAST-AZURE/test_output
-        displayName: 'Run CxOne DAST via PowerShell'
+        displayName: 'Run CxOne DAST via CMD'
 
       - task: PublishPipelineArtifact@1
         displayName: 'Publish CxOne DAST Artifacts'
