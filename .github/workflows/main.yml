@@ -1,0 +1,52 @@
+name: Checkmarx Container Security Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  scan-container:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Checkmarx CLI
+        run: |
+          curl -sSL https://download.checkmarx.com/cli/latest/linux/cx-cli -o cx
+          chmod +x cx
+          sudo mv cx /usr/local/bin/
+
+      - name: Authenticate with JFrog Artifactory
+        run: |
+          echo "${{ secrets.JFROG_API_KEY }}" | docker login my-artifactory.com -u "${{ secrets.JFROG_USERNAME }}" --password-stdin
+
+      - name: Pull Private Image from JFrog
+        run: |
+          docker pull my-artifactory.com/docker-local/my-app:latest
+
+      - name: Prepare Dummy Directory for Checkmarx CLI
+        run: |
+          mkdir -p ~/dummy_container_scan
+
+      - name: Scan Image with Checkmarx CLI
+        run: |
+          cx scan create --project-name "MyApp-Security" \
+            -s ~/dummy_container_scan \
+            --branch "container-scan-run" \
+            --scan-types container-security \
+            --container-images "my-artifactory.com/docker-local/my-app:latest" \
+            --report-format json --output scan-results.json \
+            --apikey "${{ secrets.CX_API_KEY }}"
+
+      - name: Upload Scan Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: Checkmarx-Scan-Report
+          path: scan-results.json
+
