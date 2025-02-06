@@ -44,10 +44,11 @@ jobs:
         run: |
           cx scan create --project-name "MyApp-Security" \
             -s ~/dummy_container_scan \
+            --project-name "${{ github.repository }}" \
             --branch "container-scan-run" \
             --scan-types container-security \
             --container-images "trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest" \
-            --report-format json --output scan-results.json \
+            #--report-format json --output scan-results.json \
             --apikey "${{ secrets.CX_API_KEY }}"
 
       - name: Upload Scan Report
