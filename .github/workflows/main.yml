@@ -16,20 +16,26 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Checkmarx CLI
+      - name: Install Dependencies
         run: |
-          curl -sSL https://download.checkmarx.com/cli/latest/linux/cx-cli -o cx
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+
+      - name: Get Checkmarx One CLI
+        run: |
+          wget "https://github.com/Checkmarx/ast-cli/releases/download/${{ secrets.CX_VERSION }}/ast-cli_${{ secrets.CX_VERSION }}_linux_x64.zip"
+          unzip ast-cli_${{ secrets.CX_VERSION }}_linux_x64.zip
           chmod +x cx
           sudo mv cx /usr/local/bin/
 
       - name: Authenticate with JFrog Artifactory
         run: |
-          echo | docker login https://trialwfypfq.jfrog.io/ -u "${{ secrets.JFROG_USERNAME }}" --password "${{secrets.JFROG_API_KEY}}"
+          echo | docker login https://trialwfypfq.jfrog.io/ -u "${{ secrets.JFROG_USERNAME }}" --password "${{ secrets.JFROG_API_KEY }}"
 
       - name: Pull Private Image from JFrog
         run: |
           docker pull trialwfypfq.jfrog.io/docker-trial/exposures:latest
-          
+
       - name: Prepare Dummy Directory for Checkmarx CLI
         run: |
           mkdir -p ~/dummy_container_scan
@@ -49,4 +55,3 @@ jobs:
         with:
           name: Checkmarx-Scan-Report
           path: scan-results.json
-
