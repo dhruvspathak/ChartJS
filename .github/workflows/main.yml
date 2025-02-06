@@ -50,7 +50,7 @@ jobs:
             --tenant "sudha" \
             --client-id "${{ secrets.CX_CLIENT_ID }}" \
             --client-secret "${{ secrets.CX_CLIENT_SECRET }}" \
-            --scan-types container-security \
+            --scan-types "container-security" \
             --container-images "trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest" \
             #--report-format json --output scan-results.json \
             --CX_API_KEY "${{ secrets.CX_API_KEY }}"
