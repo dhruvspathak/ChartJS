@@ -40,7 +40,7 @@ jobs:
             -s ~/dummy_container_scan \
             --branch "container-scan-run" \
             --scan-types container-security \
-            --container-images "my-artifactory.com/docker-local/my-app:latest" \
+            --container-images "trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest" \
             --report-format json --output scan-results.json \
             --apikey "${{ secrets.CX_API_KEY }}"
 
