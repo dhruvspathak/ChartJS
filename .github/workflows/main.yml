@@ -28,7 +28,7 @@ jobs:
 
       - name: Pull Private Image from JFrog
         run: |
-          docker pull trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest
+          docker pull trialwfypfq.jfrog.io/docker-trial/exposures:latest
           
       - name: Prepare Dummy Directory for Checkmarx CLI
         run: |
