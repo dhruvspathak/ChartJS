@@ -28,8 +28,8 @@ jobs:
 
       - name: Pull Private Image from JFrog
         run: |
-          docker pull my-artifactory.com/docker-local/my-app:latest
-
+          docker pull trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest
+          
       - name: Prepare Dummy Directory for Checkmarx CLI
         run: |
           mkdir -p ~/dummy_container_scan
