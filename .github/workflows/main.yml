@@ -24,7 +24,7 @@ jobs:
 
       - name: Authenticate with JFrog Artifactory
         run: |
-          echo "${{ secrets.JFROG_API_KEY }}" | docker login https://trialwfypfq.jfrog.io/ -u "${{ secrets.JFROG_USERNAME }}" --password "${{secrets.JFROG_API_KEY}"
+          echo | docker login https://trialwfypfq.jfrog.io/ -u "${{ secrets.JFROG_USERNAME }}" --password "${{secrets.JFROG_API_KEY}"
 
       - name: Pull Private Image from JFrog
         run: |
