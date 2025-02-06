@@ -24,7 +24,7 @@ jobs:
       - name: Get Checkmarx One CLI
         run: |
           wget "https://github.com/Checkmarx/ast-cli/releases/download/2.3.13/ast-cli_2.3.13_linux_x64.tar.gz"
-          unzip ast-cli_2.3.13_linux_x64.zip
+          tar -xvzf ast-cli_2.3.13_linux_x64.tar.gz
           chmod +x cx
           sudo mv cx /usr/local/bin/
 
