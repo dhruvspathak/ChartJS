@@ -8,15 +8,15 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "axios": "^1.6.7",
+    "axios": "1.7.4",
     "chart.js": "^4.4.1",
     "parcel": "^2.11.0",
     "parcel-bundler": "^1.12.5",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "terser": "^5.27.2",
-    "vite": "^2.7.2"
+    "terser": "4.8.1",
+    "vite": "5.1.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.55",
