@@ -46,7 +46,7 @@ jobs:
             -s ~/dummy_container_scan \
             --project-name "${{ github.repository }}" \
             --branch "container-scan-run" \
-            --base-uri https://ind.ast.checkmarx.net/ \
+            --base-uri "https://ind.ast.checkmarx.net" \
             --tenant "sudha" \
             --client-id "${{ secrets.CX_CLIENT_ID }}" \
             --client-secret "${{ secrets.CX_CLIENT_SECRET }}" \
@@ -54,7 +54,7 @@ jobs:
             --container-images "trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest" \
             #--report-format json --output scan-results.json \
             #--CX_API_KEY "${{ secrets.CX_API_KEY }}"
-            --CX_BASE_URI "https://ind.ast.checkmarx.net"
+            #--CX_BASE_URI "https://ind.ast.checkmarx.net"
 
       - name: Upload Scan Report
         uses: actions/upload-artifact@v4
