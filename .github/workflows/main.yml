@@ -53,7 +53,7 @@ jobs:
             --scan-types "container-security" \
             --container-images "trialwfypfq.jfrog.io/docker-trial/mysql:8.0/latest" \
             #--report-format json --output scan-results.json \
-            --CX_API_KEY "${{ secrets.CX_API_KEY }}"
+            #--CX_API_KEY "${{ secrets.CX_API_KEY }}"
             --CX_BASE_URI "https://ind.ast.checkmarx.net"
 
       - name: Upload Scan Report
