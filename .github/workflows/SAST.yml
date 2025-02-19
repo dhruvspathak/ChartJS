@@ -1,0 +1,39 @@
+
+name: Checkmarx Security Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    name: Checkmarx CxFlow Scan
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Checkmarx CxFlow Action
+        uses: checkmarx-ts/checkmarx-cxflow-github-action@v2.3
+        with:
+          checkmarx_url: ${{ secrets.CX_URL }}
+          team: ${{ secrets.CX_TEAM }}
+          checkmarx_username: ${{ secrets.CX_USERNAME }}
+          checkmarx_password: ${{ secrets.CX_PASSWORD }}
+          checkmarx_client_secret: ${{ secrets.CX_CLIENT_SECRET2 }}
+          project: "MyApp-CheckmarxScan"
+          app: "MyApp"
+          preset: "High and Medium"
+          break_build: true
+          bug_tracker: "Sarif"
+          incremental: false
+          params: ""
+          github_token: ${{ secrets.GH_TOKEN }}
+          scanners: "sast"
+          extra_certificates: ""
+          java_opts: "-XX:MaxRAMPercentage=75.0"
