@@ -9,6 +9,34 @@ on:
     branches:
       - main
 
+# jobs:
+#   security_scan:
+#     name: Checkmarx CxFlow Scan
+#     runs-on: self-hosted
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       - name: Checkmarx CxFlow Action
+#         uses: checkmarx-ts/checkmarx-cxflow-github-action@v2.3
+#         with:
+#           checkmarx_url: ${{ secrets.CX_URL }}
+#           team: ${{ secrets.CX_TEAM }}
+#           checkmarx_username: ${{ secrets.CX_USERNAME }}
+#           checkmarx_password: ${{ secrets.CX_PASSWORD }}
+#           checkmarx_client_secret: ${{ secrets.CX_CLIENT_SECRET2 }}
+#           project: "MyApp-CheckmarxScan"
+#           app: "MyApp"
+#           preset: "High and Medium"
+#           break_build: true
+#           bug_tracker: "Sarif"
+#           incremental: false
+#           params: ""
+#           github_token: ${{ secrets.GH_TOKEN }}
+#           scanners: "sast"
+#           extra_certificates: ""
+#           java_opts: "-XX:MaxRAMPercentage=75.0"
 jobs:
   security_scan:
     name: Checkmarx CxFlow Scan
@@ -18,22 +46,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Checkmarx CxFlow Action
-        uses: checkmarx-ts/checkmarx-cxflow-github-action@v2.3
-        with:
-          checkmarx_url: ${{ secrets.CX_URL }}
-          team: ${{ secrets.CX_TEAM }}
-          checkmarx_username: ${{ secrets.CX_USERNAME }}
-          checkmarx_password: ${{ secrets.CX_PASSWORD }}
-          checkmarx_client_secret: ${{ secrets.CX_CLIENT_SECRET2 }}
-          project: "MyApp-CheckmarxScan"
-          app: "MyApp"
-          preset: "High and Medium"
-          break_build: true
-          bug_tracker: "Sarif"
-          incremental: false
-          params: ""
-          github_token: ${{ secrets.GH_TOKEN }}
-          scanners: "sast"
-          extra_certificates: ""
-          java_opts: "-XX:MaxRAMPercentage=75.0"
+      - name: Run Checkmarx CxFlow in Docker
+        run: |
+          docker run --rm \
+            -e CHECKMARX_URL=${{ secrets.CX_URL }} \
+            -e CHECKMARX_USERNAME=${{ secrets.CX_USERNAME }} \
+            -e CHECKMARX_PASSWORD=${{ secrets.CX_PASSWORD }} \
+            -e CHECKMARX_CLIENT_SECRET=${{ secrets.CX_CLIENT_SECRET2 }} \
+            -e CHECKMARX_TEAM=${{ secrets.CX_TEAM }} \
+            -e PROJECT="MyApp-CheckmarxScan" \
+            -e APP="MyApp" \
+            -e PRESET="High and Medium" \
+            -e BREAK_BUILD="true" \
+            -e BUG_TRACKER="Sarif" \
+            -e INCREMENTAL="false" \
+            -e SCANNERS="sast" \
+            -e JAVA_OPTS="-XX:MaxRAMPercentage=75.0" \
+            -v "$(pwd)":/src \
+            checkmarx-ts/cxflow:latest
