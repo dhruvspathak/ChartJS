@@ -14,7 +14,7 @@ jobs:
         uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.0-9.x
         with:
           checkmarx_url: ${{secrets.CX_URL}}
-          team: /CxServer/SP/EMEA/UK
+          team: /CxServer
           checkmarx_username: ${{secrets.CX_USERNAME}}
           checkmarx_password: ${{secrets.CX_PASSWORD}}
           checkmarx_client_secret: ${{secrets.CX_CLIENT_SECRET}}
