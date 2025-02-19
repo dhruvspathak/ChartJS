@@ -1,13 +1,13 @@
 name: Checkmarx Container Security Scan
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+ workflow_call:
 jobs:
   scan-container:
     runs-on: ubuntu-latest
