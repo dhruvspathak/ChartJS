@@ -6,14 +6,15 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
       - name: Checkmarx CxFlow Action
         uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.0-9.x
         with:
-          checkmarx_url: ${{secrets.CX_URL}}
+          #checkmarx_url: ${{secrets.CX_URL}}
+          checkmarx_url: http://dhruvp-lt
           team: /CxServer/SP/EMEA/UK
           checkmarx_username: ${{secrets.CX_USERNAME}}
           checkmarx_password: ${{secrets.CX_PASSWORD}}
