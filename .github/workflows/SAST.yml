@@ -1,39 +1,93 @@
-name: Checkmarx Security Scan
+# name: Checkmarx Security Scan
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   security_scan:
+#     name: Checkmarx CxFlow Scan
+#     runs-on: self-hosted
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       - name: Run Checkmarx CxFlow in Docker (PowerShell)
+#         shell: powershell
+#         run: |
+#           Set-ExecutionPolicy Bypass -Scope Process -Force
+#           docker run --rm `
+#             -e CHECKMARX_URL=${{ secrets.CX_URL }} `
+#             -e CHECKMARX_USERNAME=${{ secrets.CX_USERNAME }} `
+#             -e CHECKMARX_PASSWORD=${{ secrets.CX_PASSWORD }} `
+#             -e CHECKMARX_CLIENT_SECRET=${{ secrets.CX_CLIENT_SECRET2 }} `
+#             -e CHECKMARX_TEAM=${{ secrets.CX_TEAM }} `
+#             -e PROJECT="MyApp-CheckmarxScan" `
+#             -e APP="MyApp" `
+#             -e PRESET="High and Medium" `
+#             -e BREAK_BUILD="true" `
+#             -e BUG_TRACKER="Sarif" `
+#             -e INCREMENTAL="false" `
+#             -e SCANNERS="sast" `
+#             -e JAVA_OPTS="-XX:MaxRAMPercentage=75.0" `
+#             -v "${PWD}:/src" `
+#             checkmarx-ts/cxflow:latest
+
+# This is a basic workflow to help you get started with Actions
+name: CxFlow
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
 
 on:
   push:
-    branches:
-      - main
+    branches: [ master, main ]
   pull_request:
-    branches:
-      - main
+    branches: [ master, main ]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  security_scan:
-    name: Checkmarx CxFlow Scan
-    runs-on: self-hosted
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
 
-      - name: Run Checkmarx CxFlow in Docker (PowerShell)
-        shell: powershell
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force
-          docker run --rm `
-            -e CHECKMARX_URL=${{ secrets.CX_URL }} `
-            -e CHECKMARX_USERNAME=${{ secrets.CX_USERNAME }} `
-            -e CHECKMARX_PASSWORD=${{ secrets.CX_PASSWORD }} `
-            -e CHECKMARX_CLIENT_SECRET=${{ secrets.CX_CLIENT_SECRET2 }} `
-            -e CHECKMARX_TEAM=${{ secrets.CX_TEAM }} `
-            -e PROJECT="MyApp-CheckmarxScan" `
-            -e APP="MyApp" `
-            -e PRESET="High and Medium" `
-            -e BREAK_BUILD="true" `
-            -e BUG_TRACKER="Sarif" `
-            -e INCREMENTAL="false" `
-            -e SCANNERS="sast" `
-            -e JAVA_OPTS="-XX:MaxRAMPercentage=75.0" `
-            -v "${PWD}:/src" `
-            checkmarx-ts/cxflow:latest
+      # Cxflow Action
+      - name: Checkmarx CxFlow Action
+        # You may pin to the exact commit or the version.
+        uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.0-9.x
+        with:
+          # Provide Checkmarx URL
+          checkmarx_url: ${{secrets.CX_URL}}
+          # Provide team
+          team: /CxServer/SP/EMEA/UK
+          # Provide Checkmarx Username
+          checkmarx_username: ${{secrets.CX_USERNAME}}
+          # Provide Checkmarx Password
+          checkmarx_password: ${{secrets.CX_PASSWORD}}
+          # Provide Checkmarx Client Secret
+          checkmarx_client_secret: ${{secrets.CX_CLIENT_SECRET}}
+          # Select a Checkmarx Project
+          project: github_chartJS
+          # Select an Application Name used by downstream bug tracker systems
+          #app: DSVW
+          # Select a Checkmarx Preset
+          #preset: # optional, default is Checkmarx Default
+          # Break build based on Checkmarx findings?
+          #break_build: # optional
+          # Incremental Scans?
+          #incremental: true
+          # GitHub API Token (note: you don't have to create secrets.GITHUB_TOKEN, it is created automatically and will not appear in your repo's custom secrets)
+          #github_token: ${{secrets.GITHUB_TOKEN}}
+          # extra parameters
+          #params: --bug-tracker=jira --config=cx.config --repo-name=DSVW --namespace=jbruinaud --branch=main --jira.url=${{secrets.JIRA_URL}} --jira.username=${{secrets.JIRA_USER}} --jira.token=${{secrets.JIRA_TOKEN}}
