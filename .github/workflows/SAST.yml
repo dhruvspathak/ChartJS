@@ -17,22 +17,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Run Checkmarx CxFlow in Docker
-        shell: cmd.exe
+      - name: Run Checkmarx CxFlow in Docker (PowerShell)
+        shell: powershell
         run: |
-          docker run --rm ^
-            -e CHECKMARX_URL=${{ secrets.CX_URL }} ^
-            -e CHECKMARX_USERNAME=${{ secrets.CX_USERNAME }} ^
-            -e CHECKMARX_PASSWORD=${{ secrets.CX_PASSWORD }} ^
-            -e CHECKMARX_CLIENT_SECRET=${{ secrets.CX_CLIENT_SECRET2 }} ^
-            -e CHECKMARX_TEAM=${{ secrets.CX_TEAM }} ^
-            -e PROJECT="MyApp-CheckmarxScan" ^
-            -e APP="MyApp" ^
-            -e PRESET="High and Medium" ^
-            -e BREAK_BUILD="true" ^
-            -e BUG_TRACKER="Sarif" ^
-            -e INCREMENTAL="false" ^
-            -e SCANNERS="sast" ^
-            -e JAVA_OPTS="-XX:MaxRAMPercentage=75.0" ^
-            -v "%cd%":/src ^
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          docker run --rm `
+            -e CHECKMARX_URL=${{ secrets.CX_URL }} `
+            -e CHECKMARX_USERNAME=${{ secrets.CX_USERNAME }} `
+            -e CHECKMARX_PASSWORD=${{ secrets.CX_PASSWORD }} `
+            -e CHECKMARX_CLIENT_SECRET=${{ secrets.CX_CLIENT_SECRET2 }} `
+            -e CHECKMARX_TEAM=${{ secrets.CX_TEAM }} `
+            -e PROJECT="MyApp-CheckmarxScan" `
+            -e APP="MyApp" `
+            -e PRESET="High and Medium" `
+            -e BREAK_BUILD="true" `
+            -e BUG_TRACKER="Sarif" `
+            -e INCREMENTAL="false" `
+            -e SCANNERS="sast" `
+            -e JAVA_OPTS="-XX:MaxRAMPercentage=75.0" `
+            -v "${PWD}:/src" `
             checkmarx-ts/cxflow:latest
