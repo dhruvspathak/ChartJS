@@ -19,7 +19,7 @@ jobs:
       #   shell: powershell
 
       - name: Pull CxFlow Docker Image
-        run: docker pull checkmarx/cx-flow
+        run: docker pull checkmarxts/cx-flow:latest
         shell: powershell
 
       - name: Run Checkmarx CxFlow Scan
