@@ -34,4 +34,3 @@ jobs:
             --app="github_chartJS" `
             --cx-project="github_chartJS"
         shell: powershell
-
