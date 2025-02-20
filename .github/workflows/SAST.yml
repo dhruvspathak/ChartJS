@@ -5,17 +5,25 @@ on:
     branches: [ master, main ]
 
 jobs:
-  build:
+  sast-scan:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Checkmarx CxFlow Action
-        uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.0-9.x
-        with:
-          checkmarx_url: ${{secrets.CX_URL}}
-          team: /CxServer
-          checkmarx_username: ${{secrets.CX_USERNAME}}
-          checkmarx_password: ${{secrets.CX_PASSWORD}}
-          checkmarx_client_secret: ${{secrets.CX_CLIENT_SECRET}}
-          project: github_chartJS
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Pull CxFlow Docker Image
+        run: |
+          docker pull checkmarx/cx-flow
+        shell: pwsh
+
+      - name: Run Checkmarx CxFlow Scan
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/app" checkmarx/cx-flow \
+            --cx-url="${{ secrets.CX_URL }}" \
+            --cx-team="/CxServer" \
+            --cx-username="${{ secrets.CX_USERNAME }}" \
+            --cx-password="${{ secrets.CX_PASSWORD }}" \
+            --cx-client-secret="${{ secrets.CX_CLIENT_SECRET }}" \
+            --cx-project="github_chartJS"
+        shell: pwsh
