@@ -32,5 +32,6 @@ jobs:
             --checkmarx_client_secret="${{ secrets.CX_CLIENT_SECRET }}" `
             --project="github_chartJS" `
             --app="github_chartJS"
+            --cx-project="github_chartJS"
         shell: powershell
 
