@@ -25,10 +25,10 @@ jobs:
       - name: Run Checkmarx CxFlow Scan
         run: |
           docker run --rm -v "$env:GITHUB_WORKSPACE:/app" checkmarx/cx-flow `
-            --cx-url="${{ secrets.CX_URL }}" `
-            --cx-team="/CxServer" `
-            --cx-username="${{ secrets.CX_USERNAME }}" `
-            --cx-password="${{ secrets.CX_PASSWORD }}" `
-            --cx-client-secret="${{ secrets.CX_CLIENT_SECRET }}" `
-            --cx-project="github_chartJS"
+            --checkmarx_url="${{ secrets.CX_URL }}" `
+            --team="/CxServer" `
+            --checkmarx_username="${{ secrets.CX_USERNAME }}" `
+            --checkmarx_password="${{ secrets.CX_PASSWORD }}" `
+            --checkmarx_client_secret="${{ secrets.CX_CLIENT_SECRET }}" `
+            --project="github_chartJS"
         shell: powershell
