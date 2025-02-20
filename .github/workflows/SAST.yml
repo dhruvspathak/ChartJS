@@ -13,17 +13,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Pull CxFlow Docker Image
-        run: |
-          docker pull checkmarx/cx-flow
-        shell: pwsh
+        run: docker pull checkmarx/cx-flow
+        shell: cmd  # Use cmd instead of pwsh
 
       - name: Run Checkmarx CxFlow Scan
         run: |
-          docker run --rm -v "${{ github.workspace }}:/app" checkmarx/cx-flow \
-            --cx-url="${{ secrets.CX_URL }}" \
-            --cx-team="/CxServer" \
-            --cx-username="${{ secrets.CX_USERNAME }}" \
-            --cx-password="${{ secrets.CX_PASSWORD }}" \
-            --cx-client-secret="${{ secrets.CX_CLIENT_SECRET }}" \
+          docker run --rm -v "%GITHUB_WORKSPACE%:/app" checkmarx/cx-flow ^
+            --cx-url="${{ secrets.CX_URL }}" ^
+            --cx-team="/CxServer" ^
+            --cx-username="${{ secrets.CX_USERNAME }}" ^
+            --cx-password="${{ secrets.CX_PASSWORD }}" ^
+            --cx-client-secret="${{ secrets.CX_CLIENT_SECRET }}" ^
             --cx-project="github_chartJS"
-        shell: pwsh
+        shell: cmd  # Use cmd instead of pwsh
