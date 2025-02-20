@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Checkmarx CxFlow Scan
         run: |
-          docker run --rm -v "$env:GITHUB_WORKSPACE:/app" checkmarx/cx-flow `
+          docker run --rm -v "$env:GITHUB_WORKSPACE:/app" checkmarxts/cxflow:latest `
             --add-host=host.docker.internal:192.168.110.89 `
             --checkmarx_url="http://host.docker.internal:80" `
             --team="/CxServer" `
