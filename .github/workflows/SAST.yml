@@ -12,9 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Enable PowerShell Script Execution
+        run: Set-ExecutionPolicy Bypass -Scope Process -Force
+        shell: powershell
+
       - name: Pull CxFlow Docker Image
         run: docker pull checkmarx/cx-flow
-        shell: powershell  # Using PowerShell (default on Windows)
+        shell: powershell
 
       - name: Run Checkmarx CxFlow Scan
         run: |
@@ -25,4 +29,4 @@ jobs:
             --cx-password="${{ secrets.CX_PASSWORD }}" `
             --cx-client-secret="${{ secrets.CX_CLIENT_SECRET }}" `
             --cx-project="github_chartJS"
-        shell: powershell  # Using PowerShell (default on Windows)
+        shell: powershell
