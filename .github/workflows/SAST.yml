@@ -27,7 +27,7 @@ jobs:
           docker run --rm -v "$env:GITHUB_WORKSPACE:/app" checkmarxts/cxflow:latest `
             --add-host=host.docker.internal:192.168.110.89 `
             --checkmarx_url="${{ secrets.CX_URL }}" `
-            --team="/CxServer/" `
+            --team="${{ secrets.CX_TEAM }}" `
             --checkmarx_username="${{ secrets.CX_USERNAME }}" `
             --checkmarx_password="${{ secrets.CX_PASSWORD }}" `
             --checkmarx_client_secret="${{ secrets.CX_CLIENT_SECRET2 }}" `
