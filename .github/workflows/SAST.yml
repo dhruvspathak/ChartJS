@@ -1,5 +1,4 @@
 name: SAST scan
-
 on:
   push:
     branches: [ master, main ]
