@@ -1,34 +1,12 @@
-trigger: none
-
 pool:
   name: Default  # Use your local agent
 
 jobs:
-  - job: AST_SCAN
-    displayName: 'Initiate AST scan'
-    timeoutInMinutes: 300
+  - job: ast_scan  # Define the job name correctly
     steps:
-      - script: |
-          docker pull checkmarx/dast:latest
-          docker run ^
-            -e CX_APIKEY=$(CX_APIKEY) ^
-            -v "/c/Users/DhruvP/Downloads/vsts-agent-win-x64-4.248.0/_work/3/s:/dast_home" ^
-            checkmarx/dast:latest web ^
-            --environment-id="573ceb9a-f003-40ba-88f9-d61fea148a4e" ^
-            --config="/dast_home/DAST-AZURE/dast-config/altoro_mutual_config.yaml" ^
-            --base-url=https://ind.ast.checkmarx.net/ ^
-            --output=/dast_home/test_output ^
-            --timeout=10000 ^
-            --update-interval=10 ^
-            --jvm-properties=-Xmx3G ^
-            --log-level=info ^
-            --verbose ^
-            --retry=3 ^
-            --retry-delay=20
-        displayName: 'Run CxOne DAST via CMD'
-
-      - task: PublishPipelineArtifact@1
-        displayName: 'Publish CxOne DAST Artifacts'
+      - task: Checkmarx AST@3
         inputs:
-          targetPath: '$(Build.SourcesDirectory)/DAST-AZURE/test_output'
-          artifact: 'CxOne DAST Artifacts'
+          CheckmarxService: 'CxOne'
+          projectName: '$(Build.Repository.Name)'
+          branchName: '$(Build.SourceBranchName)'
+          tenantName: 'sudha'
