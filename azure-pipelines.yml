@@ -1,14 +1,11 @@
 trigger: none
 
-variables:
-  - group: "CxOne DAST Variables"
-
 pool:
   name: Default  # Use your local agent
 
 jobs:
-  - job: dast_scan
-    displayName: 'Initiate DAST scan'
+  - job: AST_SCAN
+    displayName: 'Initiate AST scan'
     timeoutInMinutes: 300
     steps:
       - script: |
