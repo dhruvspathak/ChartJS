@@ -12,3 +12,4 @@ jobs:
           projectName: '$(Build.Repository.Name)'
           branchName: '$(Build.SourceBranchName)'
           tenantName: 'sudha'
+          additionalParams: '--ignore-policy'
