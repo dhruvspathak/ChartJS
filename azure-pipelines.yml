@@ -1,3 +1,5 @@
+trigger:
+  - master
 pool:
   name: Default  # Use your local agent
 
